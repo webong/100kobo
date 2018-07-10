@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+	RewriteCond %{REQUEST_URI} ^System.*
+	RewriteRule ^(.*)$ /index.php?/$1 [L]
+
+	RewriteCond %{REQUEST_URI} ^application.*
+	RewriteRule ^(.*)$ /index.php?/$1 [L]
+
+	# redirect non-www to www
+	# RewriteCond %{HTTP_HOST} !^www\.
+	# RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
+	RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+	RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ index.php?/$1 [L]
+
+	Options -Indexes
+</IfModule>
